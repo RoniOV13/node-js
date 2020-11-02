@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Document</h3>
+    <button>Open</button>
+</body>
+</html>
+
+
+
+
+
+<!--
+   var mimes = {
+    ".htm":"text/html",
+    ".css":"text/css",
+    ".js":"text/javascript",
+    ".gif":"text/gif",
+    ".jpg":"text/jpeg",
+    ".png":"text/png"
+}
+  
+  var filepath =(req.url==='/')?('./src/index.html'):('.'+req.url);
+var contentType = mimes[extname(filepath)];
+fs.exists(filepath,function(file_exists){
+    if(file_exists)
+    {
+            res.writeHead(200, {'Content-Type' : contentType});
+            var streamFile = fs.createReadStream(filepath).pipe(res);
+            streamFile.on('error',function(){
+                res.writeHead(500);
+                res.end();
+            })
+    }
+    else
+    {
+        res.writeHead(404, {"Content-Type": "text/plain"});
+        res.end("sorry we could not find the file you requested");
+    }
+}) -->

@@ -49,78 +49,83 @@ createServer(async (req, res) => {
   console.log(`${req.method} - ${req.url}`)
 
   await search(req.url, PUBLIC)
-
  
-  // let filePath = '.' + req.url;
-  //   if (filePath == './')
-  //       filePath = './index.html';
+  let filePath = '.' + req.url;
+  if (filePath == './'){
+      //filePath = process.cwd()+'/src/index1.pug';
+      const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
+      const body = compiledFunction({
+        local: 'Batman'
+      });
+    
+      res
+        .writeHead(200, {
+          'Content-Length': Buffer.byteLength(body),
+          'Content-Type': 'text/html'
+        })
+        .end(body)}
 
-  //   let extname_ = extname(filePath);
-  //   let contentType = 'text/html';
-  //   switch (extname_) {
-  //       case '.js':
-  //           contentType = 'text/javascript';
-  //           break;
-  //       case '.css':
-  //           contentType = 'text/css';
-  //           break;
-  //       case '.json':
-  //           contentType = 'application/json';
-  //           break;
-  //       case '.png':
-  //           contentType = 'image/png';
-  //           break;      
-  //       case '.jpg':
-  //           contentType = 'image/jpg';
-  //           break;
-  //       case '.wav':
-  //           contentType = 'audio/wav';
-  //           break;
-  //           case '.woff':
-  //           contentType = 'font/woff';
-  //           break;
-  //       case '.woff2':
-  //           contentType = 'font/woff2';
-  //           break;      
-  //       case '.svg':
-  //           contentType = 'image/svg+xml';
-  //           break;
-  //       case '.gif': 
-  //           contentType = 'image/gif';
-  //           break;
-  //   }
+      // if (filePath == './ter.json') {
+      //   const json = JSON.parse(fs.readFile ('/src/ter.json', 'utf8'));
+      //   res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)}); 
+      //   res.end(json);
 
-  //   fs.readFile(process.cwd() + '/public/path/'+ req.url, function(error, content) {
-  //       if (error) {
-  //           if(error.code == 'ENOENT'){
-  //               fs.readFile('./404.html', function(error, content) {
-  //                   res.writeHead(200, { 'Content-Type': contentType });
-  //                   res.end(content, 'utf-8');
-  //               });
-  //           }
-  //           else {
-  //               res.writeHead(500);
-  //               res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
-  //               res.end(); 
-  //           }
-  //       }
-  //       else {
-  //           res.writeHead(200, { 'Content-Type': contentType });
-  //           res.end(content, 'utf-8');
-  //       }
-  //   });
+      // }
+  
 
-  const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
-  const body = compiledFunction({
-    local: 'Batman'
+  let extname1 = extname(filePath);
+  let contentType = 'text/html';
+  switch (extname1) {
+      case '.js':
+          contentType = 'text/javascript';
+          break;
+      case '.css':
+          contentType = 'text/css';
+          break;
+      case '.json':
+          contentType = 'application/json';
+          break;
+      case '.png':
+          contentType = 'image/png';
+          break;      
+      case '.jpg':
+          contentType = 'image/jpg';
+          break;
+      case '.wav':
+          contentType = 'audio/wav';
+          break;
+  }
+  filePath=process.cwd()+"/src/"+req.url;
+  fs.readFile(filePath, function(error, content) {
+      if (error) {
+          if(error.code == 'ENOENT'){
+              fs.readFile(process.cwd()+'/src/404.html', function(error, content) {
+                  res.writeHead(200, { 'Content-Type': contentType });
+                  res.end(content, 'utf-8');
+              });
+          }
+          else {
+              res.writeHead(500);
+              res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+              res.end(); 
+          }
+      }
+      else {
+          res.writeHead(200, { 'Content-Type': contentType });
+          res.end(content, 'utf-8');
+      }
   });
+  // const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
+  // const body = compiledFunction({
+  //   local: 'Batman'
+  // });
 
-  res
-    .writeHead(200, {
-      'Content-Length': Buffer.byteLength(body),
-      'Content-Type': 'text/html'
-    })
-    .end(body);
+  // res
+  //   .writeHead(200, {
+  //     'Content-Length': Buffer.byteLength(body),
+  //     'Content-Type': 'text/html'
+  //   })
+  //   .end(body);
 
 
   //   const json = JSON.stringify({ a: 2 });

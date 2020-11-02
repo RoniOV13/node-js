@@ -54,3 +54,50 @@ http.createServer((request, response) => {
 
 }).listen(8125);
 console.log('Server running at http://127.0.0.1:8125/');
+
+// if(req.url.indexOf('/') != -1){ 
+//     const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
+//     const body = compiledFunction({
+//       local: 'Batman'
+//     });
+  
+//     res.writeHead(200, {
+//         'Content-Length': Buffer.byteLength(body),
+//         'Content-Type': 'text/html'
+//       })
+//       .end(body);
+//     }
+  
+  
+//   if(req.url.indexOf('.html') != -1){ 
+  
+//   fs.readFile(process.cwd() + '/public/index.html', function (err, data) {
+//     if (err) console.log(err)
+//     res.writeHead(200, {'Content-Type': 'text/html'});
+//     res.write(data);
+//     res.end();
+//   });
+  
+//   }
+  
+//   if(req.url.indexOf('.js') != -1){ 
+  
+//   fs.readFile(process.cwd() + '/public/script.js', function (err, data) {
+//     if (err) console.log(err);
+//     res.writeHead(200, {'Content-Type': 'text/javascript'});
+//     res.write(data);
+//     res.end();
+//   });
+  
+//   }
+  
+//   if(req.url.indexOf('.css') != -1){ 
+  
+//   fs.readFile(process.cwd() + '/public/style.css', function (err, data) {
+//     if (err) console.log(err);
+//     res.writeHead(200, {'Content-Type': 'text/css'});
+//     res.write(data);
+//     res.end();
+//   });
+  
+//   } 
