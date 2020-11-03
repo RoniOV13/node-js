@@ -101,3 +101,18 @@ console.log('Server running at http://127.0.0.1:8125/');
 //   });
   
 //   } 
+
+
+
+
+// const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
+  // const body = compiledFunction({
+  //   local: 'Batman'
+  // });
+
+  // res
+  //   .writeHead(200, {
+  //     'Content-Length': Buffer.byteLength(body),
+  //     'Content-Type': 'text/html'
+  //   })
+  //   .end(body);

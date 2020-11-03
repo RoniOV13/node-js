@@ -63,19 +63,11 @@ createServer(async (req, res) => {
           'Content-Length': Buffer.byteLength(body),
           'Content-Type': 'text/html'
         })
-        .end(body)}
+        .end(body)} 
 
-      // if (filePath == './ter.json') {
-      //   const json = JSON.parse(fs.readFile ('/src/ter.json', 'utf8'));
-      //   res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)}); 
-      //   res.end(json);
-
-      // }
-  
-
-  let extname1 = extname(filePath);
-  let contentType = 'text/html';
-  switch (extname1) {
+    let extname1 = extname(filePath);
+   let contentType = 'text/html';
+      switch (extname1) {
       case '.js':
           contentType = 'text/javascript';
           break;
@@ -115,18 +107,14 @@ createServer(async (req, res) => {
           res.end(content, 'utf-8');
       }
   });
-  // const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
-  // const body = compiledFunction({
-  //   local: 'Batman'
-  // });
+  
 
-  // res
-  //   .writeHead(200, {
-  //     'Content-Length': Buffer.byteLength(body),
-  //     'Content-Type': 'text/html'
-  //   })
-  //   .end(body);
+// if (filePath == './ter.json') {
+      //   const json = JSON.parse(fs.readFile ('/src/ter.json', 'utf8'));
+      //   res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)}); 
+      //   res.end(json);
 
+      // }
 
   //   const json = JSON.stringify({ a: 2 });
   //   res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)}); 
