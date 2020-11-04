@@ -49,21 +49,29 @@ createServer(async (req, res) => {
   console.log(`${req.method} - ${req.url}`)
 
   await search(req.url, PUBLIC)
- 
+  let k=0;
   let filePath = '.' + req.url;
   if (filePath == './'){
+     k=1;
+    filePath = process.cwd()+'/src/index1.pug';
+  }
+
+  else {filePath=process.cwd()+"/src/"+req.url; }
+
+
       //filePath = process.cwd()+'/src/index1.pug';
-      const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
-      const body = compiledFunction({
-        local: 'Batman'
-      });
+      // const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
+      // const body = compiledFunction({
+      //   local: 'Batman'
+      // });
     
-      res
-        .writeHead(200, {
-          'Content-Length': Buffer.byteLength(body),
-          'Content-Type': 'text/html'
-        })
-        .end(body)} 
+      // res
+      //   .writeHead(200, {
+      //     'Content-Length': Buffer.byteLength(body),
+      //     'Content-Type': 'text/html'
+      //   })
+      //   .end(body)}
+
 
     let extname1 = extname(filePath);
    let contentType = 'text/html';
@@ -87,7 +95,7 @@ createServer(async (req, res) => {
           contentType = 'audio/wav';
           break;
   }
-  filePath=process.cwd()+"/src/"+req.url;
+  
   fs.readFile(filePath, function(error, content) {
       if (error) {
           if(error.code == 'ENOENT'){
@@ -103,9 +111,22 @@ createServer(async (req, res) => {
           }
       }
       else {
+        if (k==1) {
+        const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
+        const body = compiledFunction({
+          local: 'Batman'
+        });
+      
+        res
+          .writeHead(200, {
+            'Content-Length': Buffer.byteLength(body),
+            'Content-Type': 'text/html'
+          })
+          .end(body)}
+        else{
           res.writeHead(200, { 'Content-Type': contentType });
           res.end(content, 'utf-8');
-      }
+      }}
   });
   
 
