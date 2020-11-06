@@ -55,7 +55,8 @@ createServer(async (req, res) => {
      k=1;
     filePath = process.cwd()+'/src/index1.pug';
   }
-
+ else if (filePath =='./wer.html') {filePath=process.cwd()+"/public/path/"+req.url;}
+ else if (filePath =='./index2.html') {filePath=process.cwd()+"/public/"+req.url}
   else {filePath=process.cwd()+"/src/"+req.url; }
 
 
@@ -123,6 +124,10 @@ createServer(async (req, res) => {
             'Content-Type': 'text/html'
           })
           .end(body)}
+         else if (k==2) {
+          res.writeHead(200, { 'Content-Type': contentType });
+          res.end(content, 'utf-8');
+         } 
         else{
           res.writeHead(200, { 'Content-Type': contentType });
           res.end(content, 'utf-8');
