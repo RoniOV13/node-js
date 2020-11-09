@@ -4,6 +4,7 @@ import { readFile as oldReadFile, readdir as oldReadDir,exists, existsSync, read
 const pug = require('pug');
 const fs = require('fs');
 import {join, extname} from 'path'
+import { exit } from 'process';
 
 const PUBLIC = process.cwd() + '/public'
 
@@ -31,7 +32,7 @@ const search = async (filter: string, startPath: string = PUBLIC) => {
     try {
       const file = await readFile(startPath + filter, "utf8")
       console.log(file)
-    } catch (error) {
+      } catch (error) {
       console.error(error)
     }
   }
@@ -47,8 +48,12 @@ const search = async (filter: string, startPath: string = PUBLIC) => {
 
 createServer(async (req, res) => {
   console.log(`${req.method} - ${req.url}`)
+  
 
-  await search(req.url, PUBLIC)
+   
+  if (req.url) await search(req.url, PUBLIC);
+  else {throw new Error();}
+
   let k=0;
   let filePath = '.' + req.url;
   if (filePath == './'){
@@ -58,20 +63,6 @@ createServer(async (req, res) => {
  else if (filePath =='./wer.html') {filePath=process.cwd()+"/public/path/"+req.url;}
  else if (filePath =='./index2.html') {filePath=process.cwd()+"/public/"+req.url}
   else {filePath=process.cwd()+"/src/"+req.url; }
-
-
-      //filePath = process.cwd()+'/src/index1.pug';
-      // const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
-      // const body = compiledFunction({
-      //   local: 'Batman'
-      // });
-    
-      // res
-      //   .writeHead(200, {
-      //     'Content-Length': Buffer.byteLength(body),
-      //     'Content-Type': 'text/html'
-      //   })
-      //   .end(body)}
 
 
     let extname1 = extname(filePath);
@@ -124,11 +115,8 @@ createServer(async (req, res) => {
             'Content-Type': 'text/html'
           })
           .end(body)}
-         else if (k==2) {
-          res.writeHead(200, { 'Content-Type': contentType });
-          res.end(content, 'utf-8');
-         } 
         else{
+ 
           res.writeHead(200, { 'Content-Type': contentType });
           res.end(content, 'utf-8');
       }}
