@@ -5,6 +5,7 @@ const pug = require('pug');
 const fs = require('fs');
 import {join, extname} from 'path'
 import { exit } from 'process';
+import { fileURLToPath } from 'url';
 
 const PUBLIC = process.cwd() + '/public'
 
@@ -31,16 +32,22 @@ const search = async (filter: string, startPath: string = PUBLIC) => {
 
     try {
       const file = await readFile(startPath + filter, "utf8")
-      console.log(file)
+      console.log(file);
+      return file;
       } catch (error) {
-      console.error(error)
+      console.error(error);
+      return undefined;
     }
   }
   else {
+    let arrFile:string[] = [];
     const files = await readdirSync(startPath + filter);
     for (const file of files) {
       console.log(file);
-    }
+      arrFile.push(file);}
+      
+    return arrFile;
+
   }
 }
 
@@ -50,22 +57,19 @@ createServer(async (req, res) => {
   console.log(`${req.method} - ${req.url}`)
   
 
-   
-  if (req.url) await search(req.url, PUBLIC);
-  else {throw new Error();}
 
-  let k=0;
-  let filePath = '.' + req.url;
-  if (filePath == './'){
-     k=1;
-    filePath = process.cwd()+'/src/index1.pug';
-  }
- else if (filePath =='./wer.html') {filePath=process.cwd()+"/public/path/"+req.url;}
- else if (filePath =='./index2.html') {filePath=process.cwd()+"/public/"+req.url}
-  else {filePath=process.cwd()+"/src/"+req.url; }
+//   let k=0;
 
+//   if (filePath == './'){
+//      k=1;
+//     filePath = process.cwd()+'/src/index1.pug';
+//   }
+//  else if (filePath =='./wer.html') {filePath=process.cwd()+"/public/path/"+req.url;}
+//  else if (filePath =='./index2.html') {filePath=process.cwd()+"/public/"+req.url}
+//   else {filePath=process.cwd()+"/src/"+req.url; }
 
-    let extname1 = extname(filePath);
+    let filePath = '.' + req.url;
+    let extname1 = extname(filePath)
    let contentType = 'text/html';
       switch (extname1) {
       case '.js':
@@ -87,54 +91,19 @@ createServer(async (req, res) => {
           contentType = 'audio/wav';
           break;
   }
-  
-  fs.readFile(filePath, function(error, content) {
-      if (error) {
-          if(error.code == 'ENOENT'){
-              fs.readFile(process.cwd()+'/src/404.html', function(error, content) {
-                  res.writeHead(200, { 'Content-Type': contentType });
-                  res.end(content, 'utf-8');
-              });
-          }
-          else {
-              res.writeHead(500);
-              res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
-              res.end(); 
-          }
-      }
-      else {
-        if (k==1) {
-        const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
-        const body = compiledFunction({
-          local: 'Batman'
-        });
-      
-        res
-          .writeHead(200, {
-            'Content-Length': Buffer.byteLength(body),
-            'Content-Type': 'text/html'
-          })
-          .end(body)}
-        else{
- 
-          res.writeHead(200, { 'Content-Type': contentType });
-          res.end(content, 'utf-8');
-      }}
-  });
-  
 
-// if (filePath == './ter.json') {
-      //   const json = JSON.parse(fs.readFile ('/src/ter.json', 'utf8'));
-      //   res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)}); 
-      //   res.end(json);
-
-      // }
-
-  //   const json = JSON.stringify({ a: 2 });
-  //   res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)}); 
-  //  res.end(json);
-
-  // res.end()
+  if (req.url) {
+    let answer = await search(req.url);
+    if ( answer === undefined) {
+      res.statusCode = 404;
+      res.end("Resourse not found");
+    }
+    else {
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(answer);
+    }
+  }
+  else {throw new Error();}
 
 }).listen(5000, 'localhost', () => {
   console.log('server listen on http://localhost:5000/')
