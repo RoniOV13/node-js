@@ -57,17 +57,6 @@ createServer(async (req, res) => {
   console.log(`${req.method} - ${req.url}`)
   
 
-
-//   let k=0;
-
-//   if (filePath == './'){
-//      k=1;
-//     filePath = process.cwd()+'/src/index1.pug';
-//   }
-//  else if (filePath =='./wer.html') {filePath=process.cwd()+"/public/path/"+req.url;}
-//  else if (filePath =='./index2.html') {filePath=process.cwd()+"/public/"+req.url}
-//   else {filePath=process.cwd()+"/src/"+req.url; }
-
     let filePath = '.' + req.url;
     let extname1 = extname(filePath)
    let contentType = 'text/html';
@@ -85,7 +74,7 @@ createServer(async (req, res) => {
           contentType = 'image/png';
           break;      
       case '.jpg':
-          contentType = 'image/jpg';
+          contentType = 'image/jpg; charset=base64';
           break;
       case '.wav':
           contentType = 'audio/wav';
@@ -99,8 +88,18 @@ createServer(async (req, res) => {
       res.end("Resourse not found");
     }
     else {
+      
+      if (Array.isArray(answer))
+         {
+          res.writeHead(200, { 'Content-Type': contentType });
+          res.end(JSON.stringify(answer));
+         }
+         
+      else
+      {
       res.writeHead(200, { 'Content-Type': contentType });
-      res.end(answer);
+      res.end(answer);}
+
     }
   }
   else {throw new Error();}
