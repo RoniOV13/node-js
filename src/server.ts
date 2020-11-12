@@ -91,9 +91,21 @@ createServer(async (req, res) => {
       
       if (Array.isArray(answer))
          {
-          res.writeHead(200, { 'Content-Type': contentType });
-          res.end(JSON.stringify(answer));
-         }
+          // let data = JSON.stringify(answer);
+          const compiledFunction = pug.compileFile(process.cwd() + '/src/index1.pug')
+          // for (var i = 0; i < answer.length; i++)
+          const body = compiledFunction({
+            local: answer});
+            res
+              .writeHead(200, {
+                'Content-Length': Buffer.byteLength(body),
+                'Content-Type': 'text/html'
+              })
+              .end(body)}
+
+          // res.writeHead(200, { 'Content-Type': contentType });
+          // res.end(JSON.stringify(answer));}
+
          
       else
       {

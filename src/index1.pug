@@ -1,3 +1,12 @@
 h1 I Love Pug
 p It's a great #{local}
-a(href='index.html') Next page
+
+ul
+   each val in local
+      li
+      a(href="../public/" + "val") #{local}
+
+
+
+
+
