@@ -39,7 +39,8 @@ const search = async (filter: string, startPath: string = PUBLIC) => {
       return undefined;
     }
   }
-  else {
+  else { 
+    if (isExist===true) {
     let arrFile:string[] = [];
     const files = await readdirSync(startPath + filter);
     for (const file of files) {
@@ -47,9 +48,11 @@ const search = async (filter: string, startPath: string = PUBLIC) => {
       arrFile.push(file);}
       
     return arrFile;
-
   }
-}
+  else {
+    return undefined;
+  }
+}}
 
 
 
