@@ -77,7 +77,7 @@ createServer(async (req, res) => {
           contentType = 'image/png';
           break;      
       case '.jpg':
-          contentType = 'image/jpg; charset=base64';
+          contentType = 'image/jpg';
           break;
       case '.wav':
           contentType = 'audio/wav';
